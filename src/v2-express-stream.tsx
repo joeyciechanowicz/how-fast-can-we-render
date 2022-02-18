@@ -1,5 +1,5 @@
 import express from "express";
-import { renderToString } from "react-dom/server";
+import { renderToNodeStream } from "react-dom/server";
 import React from "react";
 import { App, AppProps } from "./app";
 import cors from "cors";
@@ -19,18 +19,15 @@ app.use((req: any, res, next) => {
 app.use(cors());
 app.use(frameguard());
 
-const pageTemplate = `<!DOCTYPE html>
+const before = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>How fast</title>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-  </head>
-  <body>
-    #page-content
-  </body>
-</html>
-`;
+  </head><body>`;
+
+const after = `</body></html>`;
 
 async function getRenderProps(req: any): Promise<AppProps> {
   return {
@@ -42,16 +39,16 @@ async function getRenderProps(req: any): Promise<AppProps> {
 
 app.get("/", (req: any, res) => {
   getRenderProps(req).then((props) => {
-    const appHTML = renderToString(<App {...props} />);
-    const html = pageTemplate.replace(
-      "#page-content",
-      `<div id="root">${appHTML}</div>`
-    );
-
     res.contentType("text/html");
-    res.status(200);
 
-    return res.send(html);
+    res.write(before);
+    const stream = renderToNodeStream(<App {...props} />);
+
+    stream.pipe(res, { end: false });
+    stream.on("end", () => {
+      res.write(after);
+      res.end();
+    });
   });
 });
 

@@ -1,5 +1,5 @@
-/** @jsx React.createElement */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 
 const LorumText = ({ children }: any) => {
   return (

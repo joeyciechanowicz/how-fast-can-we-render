@@ -1,0 +1,6 @@
+{
+    "presets": [
+      ["solid", { "generate": "ssr", "hydratable": true }]
+    ],
+    "plugins": ["@babel/plugin-transform-modules-commonjs"]
+  }

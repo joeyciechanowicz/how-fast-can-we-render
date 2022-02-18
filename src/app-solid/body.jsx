@@ -1,8 +1,6 @@
-/** @jsx React.createElement */
-import React from "react";
 import { Lorum } from "./lorum";
 
-export const Body = ({ showLorum }: { showLorum: boolean }) => {
+export const Body = ({ showLorum }) => {
   return (
     <main>
       <h1>Welcome</h1>

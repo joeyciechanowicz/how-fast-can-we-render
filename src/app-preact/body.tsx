@@ -1,5 +1,5 @@
-/** @jsx React.createElement */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import { Lorum } from "./lorum";
 
 export const Body = ({ showLorum }: { showLorum: boolean }) => {

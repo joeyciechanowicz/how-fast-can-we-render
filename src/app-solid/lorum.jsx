@@ -1,7 +1,5 @@
-/** @jsx React.createElement */
-import React from "react";
 
-const LorumText = ({ children }: any) => {
+const LorumText = ({ children }) => {
   return (
     <div>
       <p>
@@ -26,7 +24,7 @@ const LorumText = ({ children }: any) => {
   );
 };
 
-export const Lorum = ({ depth }: { depth: number }) => {
+export const Lorum = ({ depth }) => {
   const elements = [...Array(depth)].map((_, idx) => (
     <LorumText key={idx}>{depth > 0 && <Lorum depth={depth - 1} />}</LorumText>
   ));

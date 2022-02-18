@@ -1,16 +1,8 @@
-/** @jsx React.createElement */
-import React from "react";
 import { Body } from "./body";
 import { Footer } from "./footer";
 import { Header } from "./header";
 
-export interface AppProps {
-  isLoggedIn: boolean;
-  path: string;
-  showLorum: boolean;
-}
-
-export const App = ({ isLoggedIn, path, showLorum }: AppProps) => {
+export const App = ({ isLoggedIn, path, showLorum }) => {
   return (
     <div>
       <Header isLoggedIn={isLoggedIn} path={path} />

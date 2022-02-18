@@ -1,5 +1,5 @@
-/** @jsx React.createElement */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import { Body } from "./body";
 import { Footer } from "./footer";
 import { Header } from "./header";
