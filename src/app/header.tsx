@@ -1,15 +1,38 @@
 /** @jsx React.createElement */
 import React from "react";
 
-export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+const links = [
+  { url: "link1", text: "link 1" },
+  { url: "link2", text: "link 2" },
+  { url: "link3", text: "link 3" },
+  { url: "link4", text: "link 4" },
+  { url: "link5", text: "link 5" },
+];
+
+const HeaderLink = ({ url, active, children }: any) => {
+  return (
+    <a className={active ? "active" : ""} href={url}>
+      {children}
+    </a>
+  );
+};
+
+export const Header = ({
+  isLoggedIn,
+  path,
+}: {
+  isLoggedIn: boolean;
+  path: string;
+}) => {
   return (
     <header>
       <nav>
         <ul>
-          <a href="/link1">Link 1</a>
-          <a href="/link1">Link 2</a>
-          <a href="/link1">Link 3</a>
-          <a href="/link1">Link 4</a>
+          {links.map((link, idx) => (
+            <HeaderLink key={idx} active={path === link.url}>
+              {link.text}
+            </HeaderLink>
+          ))}
           {isLoggedIn ? (
             <a href="/profile">Profile</a>
           ) : (

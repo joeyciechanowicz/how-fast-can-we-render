@@ -18,7 +18,9 @@ const pageTemplate = `<!DOCTYPE html>
 `;
 
 app.get("/", (request: any, reply: any) => {
-  const appHTML = renderToString(<App isLoggedIn={false} />);
+  const appHTML = renderToString(
+    <App isLoggedIn={false} path={request.path} />
+  );
   const html = pageTemplate.replace(
     "#page-content",
     `<div id="root">${appHTML}</div>`
