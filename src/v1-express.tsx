@@ -5,6 +5,15 @@ import { App } from "./app";
 
 const app = express();
 
+app.use((req, res, next) => {
+  if (req.cookies["auth"] !== undefined) {
+    req.isLoggedIn = true;
+  } else {
+    req.isLoggedIn = false;
+  }
+  next();
+});
+
 const pageTemplate = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +27,7 @@ const pageTemplate = `<!DOCTYPE html>
 `;
 
 app.get("/", (req, res) => {
-  const appHTML = renderToString(<App />);
+  const appHTML = renderToString(<App isLoggedIn={req.isLoggedIn} />);
   const html = pageTemplate.replace(
     "#page-content",
     `<div id="root">${appHTML}</div>`
