@@ -82,3 +82,17 @@ Statistics        Avg      Stdev        Max
   Reqs/sec     16139.19    1343.48   18276.36
   Latency        7.74ms   557.58us    38.09ms
 Throughput:    16.02MB/s
+
+## v6 Restana 2,057 req/s | 18,409 req/s
+
+Lorum
+Statistics        Avg      Stdev        Max
+  Reqs/sec      2055.94     391.21    2457.33
+  Latency       60.69ms    20.85ms   428.00ms
+Throughput:   119.96MB/s
+
+No Lorum:
+Statistics        Avg      Stdev        Max
+  Reqs/sec     18409.76    1073.73   20289.03
+  Latency        6.79ms     6.22ms   319.57ms
+Throughput:    12.96MB/s
