@@ -1,14 +1,14 @@
-import express from "express";
-import { renderToNodeStream } from "react-dom/server";
-import React from "react";
-import { App, AppProps } from "./app";
-import cors from "cors";
-import frameguard from "frameguard";
+import express from 'express';
+import { renderToNodeStream } from 'react-dom/server';
+import React from 'react';
+import { App, AppProps } from './app';
+import cors from 'cors';
+import frameguard from 'frameguard';
 
 const app = express();
 
 app.use((req: any, res, next) => {
-  if (req.cookies && req.cookies["auth"] !== undefined) {
+  if (req.cookies && req.cookies['auth'] !== undefined) {
     req.isLoggedIn = true;
   } else {
     req.isLoggedIn = false;
@@ -33,23 +33,23 @@ async function getRenderProps(req: any): Promise<AppProps> {
   return {
     isLoggedIn: req.isLoggedIn,
     path: req.path,
-    showLorum: false,
+    showLorum: !!process.env.LORUM,
   };
 }
 
-app.get("/", (req: any, res) => {
+app.get('/', (req: any, res) => {
   getRenderProps(req).then((props) => {
-    res.contentType("text/html");
+    res.contentType('text/html');
 
     res.write(before);
     const stream = renderToNodeStream(<App {...props} />);
 
     stream.pipe(res, { end: false });
-    stream.on("end", () => {
+    stream.on('end', () => {
       res.write(after);
       res.end();
     });
   });
 });
 
-app.listen(8080, () => console.log("Listening on http://localhost:8080"));
+app.listen(8080, () => console.log('Listening on http://localhost:8080'));

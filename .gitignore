@@ -105,3 +105,6 @@ dist
 
 
 dist-solid/
+
+# Webstorm
+.idea

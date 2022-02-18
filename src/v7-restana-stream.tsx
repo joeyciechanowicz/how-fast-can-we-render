@@ -1,11 +1,12 @@
 /** @jsx h */
 import { h } from 'preact';
-import render from 'preact-render-to-string';
 import cors from 'cors';
 import restana from 'restana';
 import frameguard from 'frameguard';
 import http from 'http';
 import { App, AppProps } from './app-preact';
+import { renderToString } from '../render-to-string';
+import React from 'react';
 
 const pageTemplate = `<!DOCTYPE html>
 <html lang="en">
@@ -24,6 +25,16 @@ const app = restana();
 
 app.use(cors());
 app.use(frameguard());
+
+const before = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>How fast</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  </head><body>`;
+
+const after = `</body></html>`;
 
 app.use((req: any, res: any, next: any) => {
   if (req.cookies && req.cookies['auth'] !== undefined) {
@@ -44,7 +55,7 @@ async function getRenderProps(req: any): Promise<AppProps> {
 
 app.get('/', async (request, res) => {
   const props = await getRenderProps(request);
-  const appHTML = render(<App {...props} />);
+  const appHTML = renderToString(<App {...props} />);
   const html = pageTemplate.replace(
     '#page-content',
     `<div id="root">${appHTML}</div>`

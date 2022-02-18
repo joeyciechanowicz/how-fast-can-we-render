@@ -1,11 +1,11 @@
 /** @jsx h */
-import { h } from "preact";
-import render from "preact-render-to-string";
-import cors from "cors";
-import fastify from "fastify";
-import frameguard from "frameguard";
-import middie from "middie";
-import { App, AppProps } from "./app-preact";
+import { h } from 'preact';
+import render from 'preact-render-to-string';
+import cors from 'cors';
+import fastify from 'fastify';
+import frameguard from 'frameguard';
+import middie from 'middie';
+import { App, AppProps } from './app-preact';
 
 const pageTemplate = `<!DOCTYPE html>
 <html lang="en">
@@ -28,7 +28,7 @@ async function createApp() {
   app.use(frameguard());
 
   app.use((req: any, res: any, next: any) => {
-    if (req.cookies && req.cookies["auth"] !== undefined) {
+    if (req.cookies && req.cookies['auth'] !== undefined) {
       req.isLoggedIn = true;
     } else {
       req.isLoggedIn = false;
@@ -40,19 +40,19 @@ async function createApp() {
     return {
       isLoggedIn: req.isLoggedIn,
       path: req.path,
-      showLorum: false,
+      showLorum: !!process.env.LORUM,
     };
   }
 
-  app.get("/", async (request, reply) => {
+  app.get('/', async (request, reply) => {
     const props = await getRenderProps(request);
     const appHTML = render(<App {...props} />);
     const html = pageTemplate.replace(
-      "#page-content",
+      '#page-content',
       `<div id="root">${appHTML}</div>`
     );
 
-    reply.header("Content-Type", "text/html");
+    reply.header('Content-Type', 'text/html');
 
     return html;
   });

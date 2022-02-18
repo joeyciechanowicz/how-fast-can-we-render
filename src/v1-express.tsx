@@ -1,14 +1,14 @@
-import express from "express";
-import { renderToString } from "react-dom/server";
-import React from "react";
-import { App, AppProps } from "./app";
-import cors from "cors";
-import frameguard from "frameguard";
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import React from 'react';
+import { App, AppProps } from './app';
+import cors from 'cors';
+import frameguard from 'frameguard';
 
 const app = express();
 
 app.use((req: any, res, next) => {
-  if (req.cookies && req.cookies["auth"] !== undefined) {
+  if (req.cookies && req.cookies['auth'] !== undefined) {
     req.isLoggedIn = true;
   } else {
     req.isLoggedIn = false;
@@ -36,23 +36,23 @@ async function getRenderProps(req: any): Promise<AppProps> {
   return {
     isLoggedIn: req.isLoggedIn,
     path: req.path,
-    showLorum: false,
+    showLorum: !!process.env.LORUM,
   };
 }
 
-app.get("/", (req: any, res) => {
+app.get('/', (req: any, res) => {
   getRenderProps(req).then((props) => {
     const appHTML = renderToString(<App {...props} />);
     const html = pageTemplate.replace(
-      "#page-content",
+      '#page-content',
       `<div id="root">${appHTML}</div>`
     );
 
-    res.contentType("text/html");
+    res.contentType('text/html');
     res.status(200);
 
     return res.send(html);
   });
 });
 
-app.listen(8080, () => console.log("Listening on http://localhost:8080"));
+app.listen(8080, () => console.log('Listening on http://localhost:8080'));
